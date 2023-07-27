@@ -1,26 +1,34 @@
 import React from 'react';
 import styled from "styled-components";
+import { GlobalStyle } from "../styles/globalStyles";
 import { useFormik } from "formik";
+import { contactFormSchema } from '../schema';
+
 
 
 const Registration = () => {
-    const formik = useFormik({
+    const Formik = useFormik({
         initialValues: {
           name: "",
           email: "",
-          password: "",
-          confirm_password: "",
+          address: "",
+          phone: "",
         },
-        onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+        validationSchema: contactFormSchema,
+        onSubmit: (values, action) => {
+          console.log(values)
+          action.resetForm();
         },
+        
 
       });
+      console.log(Formik.errors)
 
-      console.log(formik)
+     
    
   return (
         <>
+        <GlobalStyle />
           <Wrapper>
             <div className="container">
               <div className="modal">
@@ -30,7 +38,7 @@ const Registration = () => {
                     <p className="modal-desc">
                       Contact Form API using Formik & Yup
                     </p>
-                    <form onSubmit= ''>
+                    <form onSubmit= {Formik.handleSubmit}>
                       <div className="input-block">
                         <label htmlFor="name" className="input-label">
                           Name
@@ -41,13 +49,13 @@ const Registration = () => {
                           name="name"
                           id="name"
                           placeholder="Name"
-                          value = ""
-                          onChange = ""
-                          onBlur = ""
+                          value = {Formik.values.name}
+                          onChange = {Formik.handleChange}
+                          // onBlur = ""
                         />
-                        {/* {errors.name && touched.name ? (
-                          <p className="form-error">{errors.name}</p>
-                        ) : null} */}
+                        { Formik.errors.name && Formik.touched.name ? (
+                          <p className="form-error">{Formik.errors.name}</p>
+                        ) : null }
                       </div>
                       <div className="input-block">
                         <label htmlFor="email" className="input-label">
@@ -59,62 +67,60 @@ const Registration = () => {
                           name="email"
                           id="email"
                           placeholder="Email"
-                          value=""
-                          onChange=""
-                          onBlur=""
+                          value= {Formik.values.email}
+                          onChange= {Formik.handleChange}
+                          // onBlur=""
                         />
-                        {/* {errors.email && touched.email ? (
-                          <p className="form-error">{errors.email}</p>
-                        ) : null} */}
+                       
+                        { Formik.errors.email && Formik.touched.email ? (
+                          <p className="form-error">{Formik.errors.email}</p>
+                        ) : null }
                       </div>
                       <div className="input-block">
-                        <label htmlFor="password" className="input-label">
-                          Password
+                        <label htmlFor="phone" className="input-label">
+                          Phone Number
                         </label>
                         <input
-                          type="password"
+                          type="phone"
                           autoComplete="off"
-                          name="password"
-                          id="password"
-                          placeholder="Password"
-                          value= ""
-                          onChange=""
-                          onBlur=""
+                          name="phone"
+                          id="phone"
+                          placeholder="Phone Number"
+                          value= {Formik.values.phone}
+                          onChange= {Formik.handleChange}
+                          // onBlur=""
                         />
-                        {/* {errors.password && touched.password ? (
-                          <p className="form-error">{errors.password}</p>
-                        ) : null} */}
+                        
+                        { Formik.errors.phone && Formik.touched.phone ? (
+                          <p className="form-error">{Formik.errors.phone}</p>
+                        ) : null }
                       </div>
                       <div className="input-block">
-                        <label htmlFor="confirm_password" className="input-label">
-                          Confirm Password
+                        <label htmlFor="address" className="input-label">
+                          Address
                         </label>
                         <input
-                          type="password"
+                          type="address"
                           autoComplete="off"
-                          name="confirm_password"
-                          id="confirm_password"
-                          placeholder="Confirm Password"
-                          value = ""
-                          onChange=""
-                          onBlur=""
+                          name="address"
+                          id="address"
+                          placeholder="Address"
+                          value = {Formik.values.address}
+                          onChange= {Formik.handleChange}
+                          // onBlur=""
                         />
-                        {/* {errors.confirm_password && touched.confirm_password ? (
-                          <p className="form-error">{errors.confirm_password}</p>
-                        ) : null} */}
+                        <p className="form-error">{Formik.errors.address}</p>
+                        { Formik.errors.address && Formik.touched.address ? (
+                          <p className="form-error">{Formik.errors.address}</p>
+                        ) : null }
                       </div>
                       <div className="modal-buttons">
-                        <a href="#" className="">
-                          Want to register using Gmail?
-                        </a>
                         <button className="input-button" type="submit">
-                          Registration
+                          Submit
                         </button>
                       </div>
                     </form>
-                    <p className="sign-up">
-                      Already have an account? <a href="#">Sign In now</a>
-                    </p>
+                    
                   </div>
                   <div className="modal-right">
                     <img
