@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { GlobalStyle } from "../styles/globalStyles";
 import { useFormik } from "formik";
 import { contactFormSchema } from '../schema';
+import axios from 'axios';
 
 
 
@@ -15,14 +16,23 @@ const Registration = () => {
           phone: "",
         },
         validationSchema: contactFormSchema,
-        onSubmit: (values, action) => {
-          console.log(values)
+        onSubmit: async (values, action) => {
           action.resetForm();
+          try {
+            const response = await axios.post('http://localhost:8000/contactForm/create', values);
+    
+           
+            console.log('Response:', response.data);
+          } catch (error) {
+            
+            console.error('Error:', error.message);
+          }
+
         },
         
 
       });
-      console.log(Formik.errors)
+      //console.log(Formik.errors)
 
      
    
@@ -109,7 +119,7 @@ const Registration = () => {
                           onChange= {Formik.handleChange}
                           // onBlur=""
                         />
-                        <p className="form-error">{Formik.errors.address}</p>
+                        
                         { Formik.errors.address && Formik.touched.address ? (
                           <p className="form-error">{Formik.errors.address}</p>
                         ) : null }
